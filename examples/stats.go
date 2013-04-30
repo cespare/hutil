@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cespare/hutil"
+	"github.com/cespare/hutil/stats"
 )
 
 const (
@@ -15,13 +15,15 @@ const (
 
 func main() {
 	mux := http.NewServeMux()
+	mux.HandleFunc("/bad", func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "not found", http.StatusNotFound)
+	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(200 * time.Millisecond)
 		w.Write([]byte("Hello!"))
 	})
 
-	stat := hutil.NewStatRecorder(mux)
-	//mux.Handle("/stats", stat.HandlerFunc())
+	stat := stats.New(mux)
 	server := &http.Server{
 		Handler: stat,
 		Addr: addr,
