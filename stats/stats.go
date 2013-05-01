@@ -116,8 +116,9 @@ func (r *statRecord) WriteHeader(status int) {
 type Stats struct {
 	http.Handler
 
-	records  chan *statRecord
-	discrete *discreteValuesBuffer
+	records         chan *statRecord
+	summaryRequests chan chan *Summary
+	discrete        *discreteValuesBuffer
 }
 
 type DiscreteCount struct {
@@ -128,7 +129,7 @@ type DiscreteCount struct {
 func newDiscreteCount() *DiscreteCount {
 	return &DiscreteCount{
 		ResponseStatus: make(map[string][]uint64),
-		Total: make([]uint64, len(timePeriods)),
+		Total:          make([]uint64, len(timePeriods)),
 	}
 }
 
@@ -142,6 +143,7 @@ func New(handler http.Handler) *Stats {
 	s := &Stats{
 		Handler:  handler,
 		records:  make(chan *statRecord, recordBufSize),
+		summaryRequests: make(chan chan *Summary),
 		discrete: buf,
 	}
 	go s.process()
@@ -158,6 +160,8 @@ func (s *Stats) process() {
 			s.discrete.currentBucket().total++
 			status := strconv.Itoa(r.status)
 			s.discrete.currentBucket().responseStatus.inc(status)
+		case r := <-s.summaryRequests:
+			r <- s.summary()
 		}
 	}
 }
@@ -200,12 +204,14 @@ func (s *Stats) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (s *Stats) HandlerFunc() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		summary := make(chan *Summary)
+		s.summaryRequests <- summary
 		context := struct {
 			TimePeriods []timePeriod
-			Summary *Summary
+			Summary     *Summary
 		}{
 			timePeriods,
-			s.summary(),
+			<-summary,
 		}
 		if err := page.Execute(w, context); err != nil {
 			log.Println(err)
