@@ -6,6 +6,10 @@ hutil is a package of utilities for Go `net/http` servers.
 
 ## fileserver
 
+## handler caching
+
+(Cache the response according to the headers.)
+
 ## Goals for hutil/metrics:
 
 1. For discrete dimensions of requests (response status, path [bucketed -- this is hard], ...)
