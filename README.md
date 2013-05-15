@@ -4,11 +4,6 @@ hutil is a package of utilities for Go `net/http` servers.
 
 ## apachelog
 
-## fileserver
-
-## handler caching
-
-(Cache the response according to the headers.)
 
 ## Goals for hutil/metrics:
 
@@ -25,3 +20,9 @@ hutil is a package of utilities for Go `net/http` servers.
   * Keep a ring buffer with the top 5 requests by $METRIC for (10s, 2m, 30min) buckets and use it to
     calculate the top 5 overall responses for the last (5m, 1h, day). (It is approximate because the
     cutoff on the back end of the time period isn't exact.)
+
+## ideas
+
+* fileserver -- fancier than http.FileServer. (Or maybe not necessary.)
+* handler caching -- a handler that caches the response according to the headers.
+* Incorporate/reimplement pat. Include the stuff in outstanding pat pull requests.
