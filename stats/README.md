@@ -1,11 +1,4 @@
-## hutil
-
-hutil is a package of utilities for Go `net/http` servers.
-
-## apachelog
-
-
-## Goals for hutil/metrics:
+## Goals for hutil/stats:
 
 1. For discrete dimensions of requests (response status, path [bucketed -- this is hard], ...)
   * Keep 1 day of 10s buckets of counts in a ring buffer
