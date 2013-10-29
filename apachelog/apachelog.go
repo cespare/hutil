@@ -31,8 +31,7 @@ import (
 	"os"
 	"time"
 
-	//"github.com/cespare/hutil"
-	hutil "../"
+	"github.com/cespare/hutil"
 )
 
 var (

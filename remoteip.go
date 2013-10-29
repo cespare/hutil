@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// TODO: Check that the IP (capitalized) is normalized correctly.
 var forwardedIPHeaders = []string{"X-Forwarded-For", "Client-IP", "X-Client-IP"} // in priority order
 
 // TODO: we could allow the user to set some variable (TrustedPrivateIPs) to be a list of addresses they wish

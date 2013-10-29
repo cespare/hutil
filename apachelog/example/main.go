@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	apachelog "../"
+	"github.com/cespare/hutil/apachelog"
 )
 
 const (
