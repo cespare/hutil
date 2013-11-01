@@ -3,23 +3,30 @@ Package apachelog is a library for logging the responses of an http.Handler. It 
 similar to the Apache HTTP server.
 
 Format strings:
-    %%          A literal %
+    %%          A literal %.
     %B          Size of the full HTTP response in bytes, excluding headers.
-    %b          Size of the full HTTP response in bytes, excluding headers. This is '-' rather than 0.
-    %D          The time taken to serve the request, in microseconds. (Also see %T)
-    %h          The client's IP address. (This is a best guess only -- see hutil.RemoteIP)
-    %H          The request protocol
+    %b          Size of the full HTTP response in bytes, excluding headers. This
+		              is '-' rather than 0.
+    %D          The time taken to serve the request, in microseconds. (Also see
+		              %T.)
+    %h          The client's IP address. (This is a best guess only -- see
+		              hutil.RemoteIP.)
+    %H          The request protocol.
     %{NAME}i    The contents of the request header called NAME.
-    %m          The request method
+    %m          The request method.
     %{NAME}o    The contents of the response header called NAME.
-    %q          The query string (prepended with a ? if a query string exists; otherwise an empty string)
-    %r          First line of request (equivalent to '%m %U%q %H')
-    %s          Response status code
-    %t          Time the request was received, formatted using ApacheTimeFormat and surrounded by [ ]
-    %{FORMAT}t  Time the request was received, formatted using the supplied time.Format string FORMAT and surrounded by [ ]
-    %T          The time taken to serve the request, in seconds. (Also see %D)
-    %u          The remote user. May be bogus if the request was unauthenticated.
-    %U          The URL path requested, not including a query string
+    %q          The query string (prepended with a ? if a query string exists;
+		              otherwise an empty string).
+    %r          First line of request (equivalent to '%m %U%q %H').
+    %s          Response status code.
+    %t          Time the request was received, formatted using ApacheTimeFormat
+		              and surrounded by '[]'.
+    %{FORMAT}t  Time the request was received, formatted using the supplied
+		              time.Format string FORMAT and surrounded by '[]'.
+    %T          The time taken to serve the request, in seconds. (Also see %D).
+    %u          The remote user. May be bogus if the request was
+		              unauthenticated.
+    %U          The URL path requested, not including a query string.
 */
 package apachelog
 
