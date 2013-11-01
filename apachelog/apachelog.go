@@ -12,14 +12,14 @@ Format strings:
     %{NAME}i    The contents of the request header called NAME.
     %m          The request method
     %{NAME}o    The contents of the response header called NAME.
-		%q          The query string (prepended with a ? if a query string exists; otherwise an empty string)
-		%r          First line of request (equivalent to '%m %U%q %H')
-		%s          Response status code
-		%t          Time the request was received, formatted using ApacheTimeFormat and surrounded by [ ]
-		%{FORMAT}t  Time the request was received, formatted using the supplied time.Format string FORMAT and surrounded by [ ]
-		%T          The time taken to serve the request, in seconds. (Also see %D)
-		%u          The remote user. May be bogus if the request was unauthenticated.
-		%U          The URL path requested, not including a query string
+    %q          The query string (prepended with a ? if a query string exists; otherwise an empty string)
+    %r          First line of request (equivalent to '%m %U%q %H')
+    %s          Response status code
+    %t          Time the request was received, formatted using ApacheTimeFormat and surrounded by [ ]
+    %{FORMAT}t  Time the request was received, formatted using the supplied time.Format string FORMAT and surrounded by [ ]
+    %T          The time taken to serve the request, in seconds. (Also see %D)
+    %u          The remote user. May be bogus if the request was unauthenticated.
+    %U          The URL path requested, not including a query string
 */
 package apachelog
 
