@@ -57,7 +57,7 @@ func RemoteIP(r *http.Request) net.IP {
 		return nil
 	}
 	ip := net.ParseIP(host)
-	if ip == nil && isPrivateIP(ip) {
+	if ip == nil || isPrivateIP(ip) {
 		return nil
 	}
 	return ip
