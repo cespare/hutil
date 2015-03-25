@@ -41,7 +41,7 @@ import (
 	"github.com/cespare/hutil"
 )
 
-var (
+const (
 	ApacheTimeFormat = `02/Jan/2006:15:04:05 -0700`
 
 	// Predefined log formats.
@@ -54,8 +54,8 @@ type parsedFormat struct {
 	chunks []chunk
 	buf    *bytes.Buffer
 
-	neededReqHeaders  map[string]bool
-	neededRespHeaders map[string]bool
+	neededReqHeaders  map[string]struct{}
+	neededRespHeaders map[string]struct{}
 }
 
 func formatProvidedError(format byte) error {
@@ -65,8 +65,8 @@ func formatProvidedError(format byte) error {
 func newParsedFormat(format string) (*parsedFormat, error) {
 	f := &parsedFormat{
 		buf:               &bytes.Buffer{},
-		neededReqHeaders:  make(map[string]bool),
-		neededRespHeaders: make(map[string]bool),
+		neededReqHeaders:  make(map[string]struct{}),
+		neededRespHeaders: make(map[string]struct{}),
 	}
 	chunks := []chunk{}
 
@@ -114,11 +114,11 @@ outer:
 			continue outer
 		case 'i':
 			header := string(braceChunk)
-			f.neededReqHeaders[header] = true
+			f.neededReqHeaders[header] = struct{}{}
 			ch = reqHeaderChunk(header)
 		case 'o':
 			header := string(braceChunk)
-			f.neededRespHeaders[header] = true
+			f.neededRespHeaders[header] = struct{}{}
 			ch = respHeaderChunk(header)
 		case 't':
 			formatString := string(braceChunk)
@@ -152,7 +152,7 @@ outer:
 			case 'T':
 				ch = responseTimeSeconds
 			case 'u':
-				f.neededReqHeaders["Remote-User"] = true
+				f.neededReqHeaders["Remote-User"] = struct{}{}
 				ch = userChunk
 			case 'U':
 				ch = pathChunk
