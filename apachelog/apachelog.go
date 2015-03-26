@@ -213,8 +213,13 @@ func (h *handler) Process() {
 	}
 }
 
+var (
+	now   = time.Now
+	since = time.Since
+)
+
 func (h *handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	start := time.Now()
+	start := now()
 	rec := &record{
 		status: http.StatusOK, // Set to 200 to begin with because WriteHeader isn't called in the OK case.
 	}
@@ -234,7 +239,7 @@ func (h *handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	rec.ResponseWriter = rw
 	h.Handler.ServeHTTP(rec, r)
 
-	rec.elapsed = time.Since(start)
+	rec.elapsed = since(start)
 	if len(h.pf.neededRespHeaders) > 0 {
 		rec.respHeaders = make(map[string]string)
 		for header := range h.pf.neededRespHeaders {
