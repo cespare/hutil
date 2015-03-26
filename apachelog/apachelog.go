@@ -36,6 +36,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/cespare/hutil"
@@ -183,9 +184,10 @@ func (f *parsedFormat) Write(r *record, out io.Writer) {
 
 type handler struct {
 	http.Handler
-	records chan *record
-	out     io.Writer
-	pf      *parsedFormat
+	pf *parsedFormat
+
+	mu  sync.Mutex
+	out io.Writer
 }
 
 func NewHandler(format string, h http.Handler, out io.Writer) http.Handler {
@@ -195,22 +197,14 @@ func NewHandler(format string, h http.Handler, out io.Writer) http.Handler {
 	}
 	h2 := &handler{
 		Handler: h,
-		records: make(chan *record), // TODO: buffered chan?
-		out:     out,
 		pf:      pf,
+		out:     out,
 	}
-	go h2.Process()
 	return h2
 }
 
 func NewDefaultHandler(h http.Handler) http.Handler {
 	return NewHandler(RackCommonLoggerFormat, h, os.Stderr)
-}
-
-func (h *handler) Process() {
-	for r := range h.records {
-		h.pf.Write(r, h.out)
-	}
 }
 
 var (
@@ -247,7 +241,9 @@ func (h *handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	h.records <- rec
+	h.mu.Lock()
+	h.pf.Write(rec, h.out)
+	h.mu.Unlock()
 }
 
 // Only the necessary fields will be filled out.
