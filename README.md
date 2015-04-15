@@ -1,3 +1,5 @@
+# hutil is deprecated. See github.com/cespare/go-apachelog
+
 ## hutil
 
 hutil is a package of utilities for Go `net/http` servers.
