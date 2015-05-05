@@ -249,7 +249,6 @@ func (h *handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // Only the necessary fields will be filled out.
 type record struct {
 	http.ResponseWriter
-	//*handler // Need a reference back to the handler.
 
 	ip            string
 	responseBytes int64
