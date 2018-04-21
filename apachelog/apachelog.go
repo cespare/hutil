@@ -1,6 +1,6 @@
 /*
-Package apachelog is a library for logging the responses of an http.Handler. It uses formats and configuration
-similar to the Apache HTTP server.
+Package apachelog is a library for logging the responses of an http.Handler.
+It uses formats and configuration similar to the Apache HTTP server.
 
 Format strings:
     %%          A literal %.

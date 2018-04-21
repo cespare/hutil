@@ -8,9 +8,10 @@ import (
 
 var forwardedIPHeaders = []string{"X-Forwarded-For", "Client-IP", "X-Client-IP"} // in priority order
 
-// TODO: we could allow the user to set some variable (TrustedPrivateIPs) to be a list of addresses they wish
-// to be treated as private and excluded when determining remote IP. That allows for the proper configuration
-// to account for some remote proxy.
+// TODO: we could allow the user to set some variable (TrustedPrivateIPs) to be
+// a list of addresses they wish to be treated as private and excluded when
+// determining remote IP. That allows for the proper configuration to account
+// for some remote proxy.
 
 func isPrivateIP(ip net.IP) bool {
 	// Exclude loopback addresses
@@ -35,8 +36,8 @@ func isPrivateIP(ip net.IP) bool {
 }
 
 func RemoteIP(r *http.Request) net.IP {
-	// First try the commonly set forwarding address headers. Start from the end and find the first non-private
-	// address.
+	// First try the commonly set forwarding address headers.
+	// Start from the end and find the first non-private address.
 	for _, h := range forwardedIPHeaders {
 		header := r.Header.Get(h)
 		if header == "" {

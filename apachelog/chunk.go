@@ -27,12 +27,16 @@ func userChunk(r *record, buf *bytes.Buffer) {
 
 func reqHeaderChunk(header string) chunk {
 	h := http.CanonicalHeaderKey(header)
-	return func(r *record, buf *bytes.Buffer) { buf.WriteString(r.reqHeaders[h]) }
+	return func(r *record, buf *bytes.Buffer) {
+		buf.WriteString(r.reqHeaders[h])
+	}
 }
 
 func respHeaderChunk(header string) chunk {
 	h := http.CanonicalHeaderKey(header)
-	return func(r *record, buf *bytes.Buffer) { buf.WriteString(r.respHeaders[h]) }
+	return func(r *record, buf *bytes.Buffer) {
+		buf.WriteString(r.respHeaders[h])
+	}
 }
 
 func startTimeChunk(format string) chunk {
@@ -70,7 +74,9 @@ func responseBytesChunk(replaceWithDash bool) chunk {
 	}
 }
 
-func responseTimeSeconds(r *record, buf *bytes.Buffer) { fmt.Fprintf(buf, "%.4f", r.elapsed.Seconds()) }
+func responseTimeSeconds(r *record, buf *bytes.Buffer) {
+	fmt.Fprintf(buf, "%.4f", r.elapsed.Seconds())
+}
 
 func responseTimeMicros(r *record, buf *bytes.Buffer) {
 	fmt.Fprintf(buf, "%.4f", float64(r.elapsed.Nanoseconds())/1000.0)
