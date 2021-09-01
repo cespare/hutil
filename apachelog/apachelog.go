@@ -60,7 +60,7 @@ type parsedFormat struct {
 }
 
 func formatProvidedError(format byte) error {
-	return fmt.Errorf("Format %%%c doesn't take a custom formatter.", format)
+	return fmt.Errorf("format %%%c doesn't take a custom formatter", format)
 }
 
 func newParsedFormat(format string) (*parsedFormat, error) {
@@ -158,7 +158,7 @@ outer:
 			case 'U':
 				ch = pathChunk
 			default:
-				return nil, fmt.Errorf("Unrecognized format code: %%%c", c)
+				return nil, fmt.Errorf("unrecognized format code: %%%c", c)
 			}
 		}
 
